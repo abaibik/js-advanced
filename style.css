@@ -16,6 +16,11 @@ body {
 .navbar1 {
   justify-content: start;
   padding-right: 10%;
+  background-color: rgb(194, 193, 193);
+}
+
+.buttonSearch {
+  background-color: white;
 }
 
 .navbar2 {
