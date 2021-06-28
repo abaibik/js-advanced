@@ -19,6 +19,10 @@ body {
   background-color: rgb(194, 193, 193);
 }
 
+.buttonSearch {
+  background-color: white;
+}
+
 .navbar2 {
   display: flex;
   justify-content: flex-end;
