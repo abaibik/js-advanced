@@ -40,13 +40,18 @@ class GoodsList extends React.Component {
   render() {
     return (
       <div className="goods-list">
-        {this.state.goods.map((value) => (
-          <GoodsItem
-            id={value.id_product}
-            title={value.product_name}
-            price={value.price}
-          />
-        ))}
+        {this.state.goods
+          .filter((value) =>
+            value.product_name.toLowerCase().includes(this.props.filter)
+          )
+          .map((value) => (
+            <GoodsItem
+              key={value.id_product}
+              id={value.id_product}
+              title={value.product_name}
+              price={value.price}
+            />
+          ))}
       </div>
     );
   }
