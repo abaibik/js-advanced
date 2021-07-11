@@ -38,20 +38,23 @@ class GoodsList extends React.Component {
   }
 
   render() {
+    const filteredGoods = this.state.goods.filter((value) =>
+      value.product_name.toLowerCase().includes(this.props.filter)
+    );
+
+    if (filteredGoods.length === 0) {
+      return <h2 className="p-3">Нет данных</h2>;
+    }
     return (
       <div className="goods-list">
-        {this.state.goods
-          .filter((value) =>
-            value.product_name.toLowerCase().includes(this.props.filter)
-          )
-          .map((value) => (
-            <GoodsItem
-              key={value.id_product}
-              id={value.id_product}
-              title={value.product_name}
-              price={value.price}
-            />
-          ))}
+        {filteredGoods.map((value) => (
+          <GoodsItem
+            key={value.id_product}
+            id={value.id_product}
+            title={value.product_name}
+            price={value.price}
+          />
+        ))}
       </div>
     );
   }
