@@ -1,4 +1,5 @@
 import React from "react";
+import Cart from "./Cart";
 
 class Header extends React.Component {
   constructor(props) {
@@ -48,12 +49,18 @@ class Header extends React.Component {
           <div className="empty"></div>
           <div className="empty"></div>
           <div className="buttonDiv">
+            <Cart />
             <button
               onClick={this.handleSearchClick}
-              className="cart-button btn btn-outline-success"
+              className="cart-button btn btn-outline-success position-relative"
               type="button"
+              data-toggle="modal"
+              data-target="#modalCart"
             >
               Cart
+              <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success">
+                0<span className="visually-hidden">unread messages</span>
+              </span>
             </button>
           </div>
         </nav>
