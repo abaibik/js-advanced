@@ -11,36 +11,57 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <header>
-      <nav class="navbar1 navbar navbar-expand-lg navbar-light">
-        <span class="dots">&#9898; &#32; &#9898; &#32; &#9898;</span>
-        <form class="d-flex">
-          <input
-            class="formSearch form-control me-2"
-            type="search"
-            placeholder="Search"
-            aria-label="Search"
-          />
-          <button class="buttonSearch btn btn-outline-success" type="submit">
-            Search
-          </button>
-        </form>
-      </nav>
+    <div id="app">
+      <header>
+        <nav class="navbar1 navbar navbar-expand-lg navbar-light">
+          <span class="dots">&#9898; &#32; &#9898; &#32; &#9898;</span>
+          <form class="d-flex">
+            <input
+              class="formSearch form-control me-2"
+              type="search"
+              placeholder="Search"
+              aria-label="Search"
+              v-model="searchLine"
+            />
+            <button
+              class="buttonSearch btn btn-outline-success"
+              type="submit"
+              v-on:click.stop.prevent="onSearch()"
+            >
+              Search
+            </button>
+          </form>
+        </nav>
 
-      <nav class="navbar2">
-        <div class="empty"></div>
-        <div class="empty"></div>
-        <div class="buttonDiv">
-          <button class="cart-button btn btn-outline-success" type="button">
-            Cart
-          </button>
+        <nav class="navbar2">
+          <div class="empty"></div>
+          <div class="empty"></div>
+          <div class="buttonDiv">
+            <button class="cart-button btn btn-outline-success" type="button">
+              Cart
+            </button>
+          </div>
+        </nav>
+      </header>
+      <main>
+        <div class="goods-list">
+          <div class="goods-item" v-for="good in filteredGoods">
+            <img
+              src="https://picsum.photos/200/300?random.jpg"
+              alt="item image"
+            />
+            <h3>{{ good.title }}</h3>
+            <p>{{ good.price }}</p>
+            <p class="pWithButton">
+              <a class="goods-cartButton" href="#">Add to cart</a>
+            </p>
+          </div>
         </div>
-      </nav>
-    </header>
-    <main>
-      <div class="goods-list"></div>
-    </main>
+        <h2 class="p-3" v-if="filteredGoods.length === 0">No goods found</h2>
+      </main>
+    </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
     <script src="script.js" defer></script>
   </body>
 </html>
