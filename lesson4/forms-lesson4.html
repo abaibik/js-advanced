@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <script src="lesson4.js"></script>
+
+    <div class="d-flex align-items-center">
+      <div class="container">
+        <form class="needs-validation" novalidate>
+          <div class="form-row">
+            <label for="nameInput">Name</label>
+            <input
+              type="text"
+              class="form-control"
+              id="nameInput"
+              placeholder="Enter your name"
+              pattern="[A-Za-z]+"
+              required
+            />
+            <div class="invalid-feedback">Name must contain only letters.</div>
+          </div>
+
+          <div class="form-row">
+            <label for="phoneInput">Phone number</label>
+            <input
+              type="tel"
+              class="form-control"
+              id="phoneInput"
+              placeholder="Enter your phone number"
+              pattern="\+7\(\d{3}\)\d{3}-\d{4}"
+              required
+            />
+            <div class="invalid-feedback">
+              Phone number must look like +7(000)000-0000.
+            </div>
+          </div>
+
+          <div class="form-row">
+            <label for="emailInput">Email address</label>
+            <input
+              type="email"
+              class="form-control"
+              id="emailInput"
+              aria-describedby="emailHelp"
+              placeholder="Enter email"
+              pattern="[\w\.]+@\w+\.\w+"
+              required
+            />
+            <div class="invalid-feedback">
+              Email must look like mymail@mail.ru OR my.mail@mail.ru OR
+              my-mail@mail.ru.
+            </div>
+          </div>
+
+          <div class="form-row">
+            <label for="textAreaInput">Text</label>
+          </div>
+          <div class="form-row">
+            <textarea
+              id="textAreaInput"
+              rows="5"
+              cols="33"
+              placeholder="Enter some text"
+            ></textarea>
+          </div>
+
+          <div class="form-row">
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <script>
+      "use strict";
+
+      (function () {
+        "use strict";
+
+        window.addEventListener(
+          "load",
+          function () {
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            const forms = document.getElementsByClassName("needs-validation");
+            // Loop over them and prevent submission
+            const validation = Array.prototype.filter.call(
+              forms,
+              function (form) {
+                form.addEventListener(
+                  "submit",
+                  function (event) {
+                    if (form.checkValidity() === false) {
+                      event.preventDefault();
+                      event.stopPropagation();
+                    }
+                    form.classList.add("was-validated");
+                  },
+                  false
+                );
+              }
+            );
+          },
+          false
+        );
+      })();
+    </script>
+  </body>
+</html>
