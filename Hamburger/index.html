@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hamburger</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <header class="pb-5">
+        <h1 class="display-4 text-primary pb-3">
+          Welcome to Best Burgers Ever!
+        </h1>
+        <h3 class="text-success">Customise your burger:</h3>
+      </header>
+
+      <form>
+        <div class="row">
+          <div class="form-group col form-control">
+            <p class="lead text-success">Choose the size:</p>
+
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="size"
+                id="big"
+                checked
+              />
+              <label class="form-check-label" for="gridRadios1"> Big </label>
+            </div>
+
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="size"
+                id="small"
+              />
+              <label class="form-check-label" for="gridRadios2"> Small </label>
+            </div>
+          </div>
+
+          <div class="form-group col form-control">
+            <p class="lead text-success">Choose the stuffing:</p>
+
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="stuffing"
+                id="cheese"
+                checked
+              />
+              <label class="form-check-label" for="gridRadios1"> Cheese </label>
+            </div>
+
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="stuffing"
+                id="salad"
+              />
+              <label class="form-check-label" for="gridRadios2"> Salad </label>
+            </div>
+
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="stuffing"
+                id="jalapeno"
+              />
+              <label class="form-check-label" for="gridRadios2">
+                Jalapeno
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group col form-control">
+            <p class="lead text-success">Add a topping:</p>
+            <div class="form-check">
+              <input type="checkbox" class="spices" />
+              <label class="form-check-label" for="exampleCheck1">Spices</label>
+            </div>
+
+            <div class="form-check">
+              <input type="checkbox" class="sauce" />
+              <label class="form-check-label" for="exampleCheck1"
+                >Worcester sauce</label
+              >
+            </div>
+          </div>
+
+          <div class="form-group col form-control">
+            <p class="lead text-success">Summary:</p>
+            <p>What do you pay:&nbsp;<span class="clientPrice"></span></p>
+            <p>
+              Energy value:&nbsp;<span class="clientEnergyValue"></span
+              >&nbsp;calories
+            </p>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <script src="hamburger.js"></script>
+  </body>
+</html>
