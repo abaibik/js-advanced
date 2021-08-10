@@ -1,3 +1,21 @@
+const makeGETRequest = (url) => {
+  const promise = new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.open("GET", url, true);
+    xhr.send();
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === 4) {
+        if (xhr.status !== 200) {
+          reject("Error");
+        } else {
+          resolve(xhr.responseText);
+        }
+      }
+    };
+  });
+  return promise;
+};
+
 class GoodsItem {
   constructor(id, title, price) {
     this.id = id;
@@ -14,22 +32,42 @@ class GoodsItem {
   }
 }
 
+const API_URL =
+  "https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses";
+
 class GoodsList {
   constructor() {
     this.goods = [];
+    this.fetchGoods().then(() => {
+      this.render();
+    });
   }
 
   fetchGoods() {
-    this.goods = [
-      { id: 1, title: "Shirt", price: 150 },
-      { id: 2, title: "Socks", price: 50 },
-      { id: 3, title: "Jacket", price: 350 },
-      { id: 4, title: "Shoes", price: 250 },
-    ];
+    const promise = new Promise((resolve, reject) => {
+      makeGETRequest(`${API_URL}/catalogData.json`)
+        .then((goods) => {
+          this.goods = JSON.parse(goods).map((parsed) => {
+            return new GoodsItem(
+              parsed.id_product,
+              parsed.product_name,
+              parsed.price
+            );
+          });
+          console.log("Fetch:", this.goods);
+          resolve();
+        })
+        .catch((e) => {
+          reject(e);
+        });
+    });
+
+    return promise;
   }
 
   render() {
     let listHtml = "";
+    console.log("render = ", this.goods);
     this.goods.forEach((good) => {
       const goodItem = new GoodsItem(good.id, good.title, good.price);
       listHtml += goodItem.render();
@@ -38,35 +76,50 @@ class GoodsList {
   }
 
   count() {
-    const sum = this.goods.reduce(
+    return this.goods.reduce(
       (accumulator, good) => accumulator + good.price,
       0
     );
-
-    console.log(sum);
   }
 }
 
-class cartElement extends GoodsItem {
-  constructor(id, title, price, littleImg, quantity, discount) {
-    super(id, title, price);
-    this.litleImg = littleImg;
-    this.quantity = quantity;
-    this.discount = discount;
+class CartElement {
+  constructor(goodsItem) {
+    this.goodsItem = goodsItem;
+    this.quantity = 1;
+  }
+
+  getPrice() {
+    return this.goodsItem.price * this.quantity;
   }
 }
 
-class cart {
+class Cart {
   constructor() {
-    addToCart();
-    removeFromCart();
-    renderCart();
-    count();
-    goToCheckout();
+    this.itemsList = [];
+  }
+  addToCart(goodsItem) {
+    const foundElement = this.itemsList.find((cartElement) => {
+      return cartElement.goodsItem === goodsItem;
+    });
+    if (foundElement === undefined) {
+      const cartElement = new CartElement(goodsItem);
+      this.itemsList.push(cartElement);
+    } else {
+      foundElement.quantity++;
+    }
+  }
+  removeFromCart(cartElement) {
+    const index = this.itemsList.indexOf(cartElement);
+    if (index > -1) {
+      this.itemsList.splice(index, 1);
+    }
+  }
+  getPrice() {
+    return this.itemsList.reduce((accumulator, cartElement) => {
+      return accumulator + cartElement.getPrice();
+    });
   }
 }
 
 const list = new GoodsList();
-list.fetchGoods();
-list.render();
-list.count();
