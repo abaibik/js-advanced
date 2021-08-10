@@ -38,6 +38,9 @@ const API_URL =
 class GoodsList {
   constructor() {
     this.goods = [];
+    this.fetchGoods().then(() => {
+      this.render();
+    });
   }
 
   fetchGoods() {
@@ -73,12 +76,10 @@ class GoodsList {
   }
 
   count() {
-    const sum = this.goods.reduce(
+    return this.goods.reduce(
       (accumulator, good) => accumulator + good.price,
       0
     );
-
-    console.log(sum);
   }
 }
 
@@ -122,6 +123,3 @@ class Cart {
 }
 
 const list = new GoodsList();
-list.fetchGoods().then(() => {
-  list.render();
-});
