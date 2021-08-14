@@ -52,6 +52,7 @@
         <div class="goods-list">
           <goods-item
             v-for="good in filteredGoods"
+            :key="good.id"
             :good="good"
             :cart="cart"
           ></goods-item>
@@ -72,9 +73,11 @@
         <div class="offcanvas-body items">
           <cart-item
             v-for="cartElement in cart.itemsList"
+            :key="cartElement.goodsItem.id"
             :good="cartElement.goodsItem"
             :quantity="cartElement.quantity"
           ></cart-item>
+          <div class="totalPrice">{{ cart.getPrice()}}</div>
         </div>
       </div>
     </div>

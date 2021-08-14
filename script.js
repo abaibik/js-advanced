@@ -44,7 +44,7 @@ class Cart {
   getPrice() {
     return this.itemsList.reduce((accumulator, cartElement) => {
       return accumulator + cartElement.getPrice();
-    });
+    }, 0);
   }
 }
 
@@ -52,7 +52,7 @@ Vue.component("base-item", {
   props: ["good"],
   template: `<div>
   <img
-    src="https://picsum.photos/200/300?random.jpg"
+    :src="'https://picsum.photos/id/' + good.id + '/200/300'"
     alt="item image"
   />
   <h3 class="goods-heading">{{ good.title }}</h3>
