@@ -60,6 +60,8 @@
         </div>
         <div class="totalPrice p-2">Total price: {{ cart.getPrice()}}</div>
       </div>
+
+      <error-message :message="errorMessage"></error-message>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>

@@ -119,6 +119,28 @@ Vue.component("cart-item", {
   </div>`,
 });
 
+Vue.component("error-message", {
+  props: ["message"],
+  watch: {
+    message: (newMessage, oldMessage) => {
+      const toastLiveExample = document.getElementById("liveToast");
+      const toast = new bootstrap.Toast(toastLiveExample);
+      toast.show();
+    },
+  },
+  template: `<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+  <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="toast-header">
+      <strong class="me-auto">Error</strong>
+      <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+    <div class="toast-body">
+      Error: {{ message }}
+    </div>
+  </div>
+</div>`,
+});
+
 const app = new Vue({
   el: "#app",
 
@@ -126,6 +148,7 @@ const app = new Vue({
     goods: [],
     filteredGoods: [],
     cart: new Cart(),
+    errorMessage: "",
   },
 
   methods: {
@@ -137,7 +160,7 @@ const app = new Vue({
         xhr.onreadystatechange = function () {
           if (xhr.readyState === 4) {
             if (xhr.status !== 200) {
-              reject("Error");
+              reject(`${xhr.status}`);
             } else {
               const goods = JSON.parse(xhr.responseText).map((parsed) => {
                 return new GoodsItem(
@@ -174,9 +197,13 @@ const app = new Vue({
   },
 
   mounted() {
-    this.makeGETRequest(`${API_URL}/catalogData.json`).then((goods) => {
-      this.goods = goods;
-      this.filteredGoods = goods;
-    });
+    this.makeGETRequest(`${API_URL}/catalogData.json`)
+      .then((goods) => {
+        this.goods = goods;
+        this.filteredGoods = goods;
+      })
+      .catch((e) => {
+        this.errorMessage = e;
+      });
   },
 });
