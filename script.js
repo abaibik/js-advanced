@@ -97,6 +97,18 @@ Vue.component("goods-item", {
   </div>`,
 });
 
+Vue.component("items", {
+  props: ["cart"],
+  template: `<div class="items h-100">
+  <cart-item
+    v-for="cartElement in cart.itemsList"
+    :key="cartElement.goodsItem.id"
+    :good="cartElement.goodsItem"
+    :quantity="cartElement.quantity"
+  ></cart-item>
+</div>`,
+});
+
 Vue.component("cart-item", {
   props: ["good", "quantity"],
   template: `<div class="cart-item row h-50 pb-2 align-items-stretch">
