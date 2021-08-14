@@ -48,22 +48,19 @@ class Cart {
   }
 }
 
-Vue.component("base-item", {
-  props: ["good"],
-  template: `<div>
-  <img
-    :src="'https://picsum.photos/id/' + good.id + '/200/300'"
-    alt="item image"
-  />
-  <h3 class="goods-heading">{{ good.title }}</h3>
-  <p class="goods-price">{{ good.price }}</p>
-  </div>`,
+Vue.component("base-item-img", {
+  props: ["goodId", "className"],
+  template: `<img :class="className"
+    :src="'https://picsum.photos/id/' + goodId + '/200/300'"
+    alt="item image"/>`,
 });
 
 Vue.component("goods-item", {
   props: ["good", "cart"],
   template: `<div class="goods-item">
-  <base-item :good="good"></base-item>
+  <base-item-img :goodId="good.id"></base-item-img>
+  <h3 class="goods-heading">{{ good.title }}</h3>
+  <p class="goods-price">{{ good.price }}</p>
   <p class="pWithButton">
     <a
       class="goods-cartButton"
@@ -77,9 +74,11 @@ Vue.component("goods-item", {
 
 Vue.component("cart-item", {
   props: ["good", "quantity"],
-  template: `<div class="goods-item">
-  <base-item :good="good"></base-item>
-  <div class="quantity">{{ quantity }}</div>
+  template: `<div class="cart-item row h-50 pb-2 align-items-stretch">
+  <div class="col h-100"><base-item-img :goodId="good.id" className="h-100"></base-item-img></div>
+  <span class="goods-heading align-self-center col">{{ good.title }}</span>
+  <span class="goods-price align-self-center col">{{ good.price }}</span>
+  <span class="quantity align-self-center col">{{ quantity }}</span>
   </div>`,
 });
 
