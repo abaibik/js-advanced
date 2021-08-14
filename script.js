@@ -48,15 +48,22 @@ class Cart {
   }
 }
 
-Vue.component("goods-item", {
-  props: ["good", "cart"],
-  template: `<div class="goods-item">
+Vue.component("base-item", {
+  props: ["good"],
+  template: `<div>
   <img
     src="https://picsum.photos/200/300?random.jpg"
     alt="item image"
   />
   <h3 class="goods-heading">{{ good.title }}</h3>
   <p class="goods-price">{{ good.price }}</p>
+  </div>`,
+});
+
+Vue.component("goods-item", {
+  props: ["good", "cart"],
+  template: `<div class="goods-item">
+  <base-item :good="good"></base-item>
   <p class="pWithButton">
     <a
       class="goods-cartButton"
