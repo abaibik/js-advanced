@@ -75,6 +75,14 @@ Vue.component("goods-item", {
   </div>`,
 });
 
+Vue.component("cart-item", {
+  props: ["good", "quantity"],
+  template: `<div class="goods-item">
+  <base-item :good="good"></base-item>
+  <div class="quantity">{{ quantity }}</div>
+  </div>`,
+});
+
 const app = new Vue({
   el: "#app",
 

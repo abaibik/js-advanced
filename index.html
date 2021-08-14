@@ -69,7 +69,13 @@
             aria-label="Close"
           ></button>
         </div>
-        <div class="offcanvas-body items">...</div>
+        <div class="offcanvas-body items">
+          <cart-item
+            v-for="cartElement in cart.itemsList"
+            :good="cartElement.goodsItem"
+            :quantity="cartElement.quantity"
+          ></cart-item>
+        </div>
       </div>
     </div>
 
