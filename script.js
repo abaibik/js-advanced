@@ -48,6 +48,31 @@ class Cart {
   }
 }
 
+Vue.component("search", {
+  data: () => {
+    return {
+      searchLine: "",
+    };
+  },
+  props: ["search"],
+  template: `<form class="d-flex">
+  <input
+    class="formSearch form-control me-2"
+    type="search"
+    placeholder="Search"
+    aria-label="Search"
+    v-on:input="searchLine = $event.target.value"
+  />
+  <button
+    class="buttonSearch btn btn-outline-success"
+    type="submit"
+    v-on:click.stop.prevent="search(searchLine)"
+  >
+    Search
+  </button>
+</form>`,
+});
+
 Vue.component("base-item-img", {
   props: ["goodId", "className"],
   template: `<img :class="className"
@@ -88,7 +113,6 @@ const app = new Vue({
   data: {
     goods: [],
     filteredGoods: [],
-    searchLine: "",
     cart: new Cart(),
   },
 
@@ -118,9 +142,9 @@ const app = new Vue({
       return promise;
     },
 
-    onSearch() {
+    onSearch(searchLine) {
       this.filteredGoods = this.goods.filter((good) =>
-        good.title.toLowerCase().includes(this.searchLine.toLowerCase())
+        good.title.toLowerCase().includes(searchLine.toLowerCase())
       );
     },
 
