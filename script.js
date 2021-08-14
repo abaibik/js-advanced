@@ -1,5 +1,4 @@
-const API_URL =
-  "https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses";
+const API_URL = ".";
 
 class GoodsItem {
   constructor(id, title, price) {
@@ -177,6 +176,28 @@ const app = new Vue({
       return promise;
     },
 
+    makePOSTRequest(url, data) {
+      const promise = new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+
+        xhr.onreadystatechange = function () {
+          if (xhr.readyState === 4) {
+            if (xhr.status !== 200) {
+              reject(`${xhr.status}`);
+            } else {
+              resolve(xhr.responseText);
+            }
+          }
+        };
+
+        xhr.open("POST", url, true);
+        xhr.setRequestHeader("Content-Type", "application/json; charset=UTF-8");
+
+        xhr.send(data);
+      });
+      return promise;
+    },
+
     onSearch(searchLine) {
       this.filteredGoods = this.goods.filter((good) =>
         good.title.toLowerCase().includes(searchLine.toLowerCase())
@@ -197,7 +218,7 @@ const app = new Vue({
   },
 
   mounted() {
-    this.makeGETRequest(`${API_URL}/catalogData.json`)
+    this.makeGETRequest(`${API_URL}/catalogData`)
       .then((goods) => {
         this.goods = goods;
         this.filteredGoods = goods;
