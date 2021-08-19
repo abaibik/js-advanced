@@ -153,26 +153,20 @@ const app = new Vue({
   methods: {
     makeGETRequest(url) {
       const promise = new Promise((resolve, reject) => {
-        const xhr = new XMLHttpRequest();
-        xhr.open("GET", url, true);
-        xhr.send();
-        xhr.onreadystatechange = function () {
-          if (xhr.readyState === 4) {
-            if (xhr.status !== 200) {
-              reject(`${xhr.status}`);
-            } else {
-              const goods = JSON.parse(xhr.responseText).map((parsed) => {
-                return new GoodsItem(
-                  parsed.id_product,
-                  parsed.product_name,
-                  parsed.price
-                );
-              });
-              resolve(goods);
-            }
-          }
-        };
+        fetch(url)
+          .then((response) => response.json())
+          .then((data) => {
+            const goods = data.map((parsed) => {
+              return new GoodsItem(
+                parsed.id_product,
+                parsed.product_name,
+                parsed.price
+              );
+            });
+            resolve(goods);
+          });
       });
+
       return promise;
     },
 
