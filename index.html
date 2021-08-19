@@ -39,7 +39,7 @@
             v-for="good in filteredGoods"
             :key="good.id"
             :good="good"
-            :cart="cart"
+            :add="addToCart"
           ></goods-item>
         </div>
         <h2 class="p-3" v-if="filteredGoods.length === 0">No goods found</h2>

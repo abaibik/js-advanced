@@ -80,7 +80,7 @@ Vue.component("base-item-img", {
 });
 
 Vue.component("goods-item", {
-  props: ["good", "cart"],
+  props: ["good", "add"],
   template: `<div class="goods-item">
   <base-item-img :goodId="good.id"></base-item-img>
   <h3 class="goods-heading">{{ good.title }}</h3>
@@ -88,7 +88,7 @@ Vue.component("goods-item", {
   <p class="pWithButton">
     <a
       class="goods-cartButton"
-      v-on:click="cart.addToCart(good)"
+      v-on:click="add(good)"
       href="#"
       >Add to cart</a
     >
@@ -193,7 +193,7 @@ const app = new Vue({
         xhr.open("POST", url, true);
         xhr.setRequestHeader("Content-Type", "application/json; charset=UTF-8");
 
-        xhr.send(data);
+        xhr.send(JSON.stringify(data));
       });
       return promise;
     },
@@ -205,15 +205,8 @@ const app = new Vue({
     },
 
     addToCart(goodsItem) {
-      const foundElement = this.goods.find((cartElement) => {
-        return cartElement.goodsItem === goodsItem;
-      });
-      if (foundElement === undefined) {
-        const cartElement = new CartElement(goodsItem);
-        this.cart.push(cartElement);
-      } else {
-        foundElement.quantity++;
-      }
+      this.cart.addToCart(goodsItem);
+      this.makePOSTRequest(`${API_URL}/addToCart`, this.cart.itemsList);
     },
   },
 
