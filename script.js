@@ -205,5 +205,19 @@ const app = new Vue({
       .catch((e) => {
         this.errorMessage = e;
       });
+
+    fetch(`${API_URL}/cart`)
+      .then((response) => response.json())
+      .then((cart) => {
+        for (const cartElement of cart) {
+          const good = this.goods.find((good) => good.id === cartElement.id);
+          if (good === undefined) {
+            continue;
+          }
+          for (let i = 0; i < cartElement.quantity; i++) {
+            this.cart.addToCart(good);
+          }
+        }
+      });
   },
 });
