@@ -25,7 +25,7 @@ class Cart {
   }
   addToCart(goodsItem) {
     const foundElement = this.itemsList.find((cartElement) => {
-      return cartElement.goodsItem === goodsItem;
+      return cartElement.goodsItem.id === goodsItem.id;
     });
     if (foundElement === undefined) {
       const cartElement = new CartElement(goodsItem);
