@@ -42,7 +42,7 @@
             :cart="cart"
           ></goods-item>
         </div>
-        <h2 class="p-3" v-if="filteredGoods.length === 0">No goods found</h2>
+        <h2 class="p-3" v-if="!filteredGoods.length">No goods found</h2>
       </main>
 
       <div class="offcanvas offcanvas-bottom" id="offcanvasCart">
