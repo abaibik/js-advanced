@@ -26,7 +26,7 @@ class Cart {
   }
   addToCart(goodsItem) {
     const foundElement = this.itemsList.find((cartElement) => {
-      return cartElement.goodsItem === goodsItem;
+      return cartElement.goodsItem.id === goodsItem.id;
     });
     if (foundElement === undefined) {
       const cartElement = new CartElement(goodsItem);
@@ -47,6 +47,31 @@ class Cart {
     }, 0);
   }
 }
+
+Vue.component("search", {
+  data: () => {
+    return {
+      searchLine: "",
+    };
+  },
+  props: ["search"],
+  template: `<form class="d-flex">
+  <input
+    class="formSearch form-control me-2"
+    type="search"
+    placeholder="Search"
+    aria-label="Search"
+    v-on:input="searchLine = $event.target.value"
+  />
+  <button
+    class="buttonSearch btn btn-outline-success"
+    type="submit"
+    v-on:click.stop.prevent="search(searchLine)"
+  >
+    Search
+  </button>
+</form>`,
+});
 
 Vue.component("base-item-img", {
   props: ["goodId", "className"],
@@ -72,6 +97,18 @@ Vue.component("goods-item", {
   </div>`,
 });
 
+Vue.component("items", {
+  props: ["cart"],
+  template: `<div class="items h-100">
+  <cart-item
+    v-for="cartElement in cart.itemsList"
+    :key="cartElement.goodsItem.id"
+    :good="cartElement.goodsItem"
+    :quantity="cartElement.quantity"
+  ></cart-item>
+</div>`,
+});
+
 Vue.component("cart-item", {
   props: ["good", "quantity"],
   template: `<div class="cart-item row h-50 pb-2 align-items-stretch">
@@ -82,45 +119,61 @@ Vue.component("cart-item", {
   </div>`,
 });
 
+Vue.component("error-message", {
+  props: ["message"],
+  watch: {
+    message: (newMessage, oldMessage) => {
+      const toastLiveExample = document.getElementById("liveToast");
+      const toast = new bootstrap.Toast(toastLiveExample);
+      toast.show();
+    },
+  },
+  template: `<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+  <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="toast-header">
+      <strong class="me-auto">Error</strong>
+      <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+    <div class="toast-body">
+      Error: {{ message }}
+    </div>
+  </div>
+</div>`,
+});
+
 const app = new Vue({
   el: "#app",
 
   data: {
     goods: [],
     filteredGoods: [],
-    searchLine: "",
     cart: new Cart(),
+    errorMessage: "",
   },
 
   methods: {
     makeGETRequest(url) {
       const promise = new Promise((resolve, reject) => {
-        const xhr = new XMLHttpRequest();
-        xhr.open("GET", url, true);
-        xhr.send();
-        xhr.onreadystatechange = function () {
-          if (xhr.readyState === 4) {
-            if (xhr.status !== 200) {
-              reject("Error");
-            } else {
-              const goods = JSON.parse(xhr.responseText).map((parsed) => {
-                return new GoodsItem(
-                  parsed.id_product,
-                  parsed.product_name,
-                  parsed.price
-                );
-              });
-              resolve(goods);
-            }
-          }
-        };
+        fetch(url)
+          .then((response) => response.json())
+          .then((data) => {
+            const goods = data.map((parsed) => {
+              return new GoodsItem(
+                parsed.id_product,
+                parsed.product_name,
+                parsed.price
+              );
+            });
+            resolve(goods);
+          });
       });
+
       return promise;
     },
 
-    onSearch() {
+    onSearch(searchLine) {
       this.filteredGoods = this.goods.filter((good) =>
-        good.title.toLowerCase().includes(this.searchLine.toLowerCase())
+        good.title.toLowerCase().includes(searchLine.toLowerCase())
       );
     },
 
@@ -138,9 +191,13 @@ const app = new Vue({
   },
 
   mounted() {
-    this.makeGETRequest(`${API_URL}/catalogData.json`).then((goods) => {
-      this.goods = goods;
-      this.filteredGoods = goods;
-    });
+    this.makeGETRequest(`${API_URL}/catalogData.json`)
+      .then((goods) => {
+        this.goods = goods;
+        this.filteredGoods = goods;
+      })
+      .catch((e) => {
+        this.errorMessage = e;
+      });
   },
 });

@@ -15,22 +15,7 @@
       <header>
         <nav class="navbar1 navbar navbar-expand-lg navbar-light">
           <span class="dots">&#9898; &#32; &#9898; &#32; &#9898;</span>
-          <form class="d-flex">
-            <input
-              class="formSearch form-control me-2"
-              type="search"
-              placeholder="Search"
-              aria-label="Search"
-              v-model="searchLine"
-            />
-            <button
-              class="buttonSearch btn btn-outline-success"
-              type="submit"
-              v-on:click.stop.prevent="onSearch()"
-            >
-              Search
-            </button>
-          </form>
+          <search :search="onSearch"></search>
         </nav>
 
         <nav class="navbar2">
@@ -57,7 +42,7 @@
             :cart="cart"
           ></goods-item>
         </div>
-        <h2 class="p-3" v-if="filteredGoods.length === 0">No goods found</h2>
+        <h2 class="p-3" v-if="!filteredGoods.length">No goods found</h2>
       </main>
 
       <div class="offcanvas offcanvas-bottom" id="offcanvasCart">
@@ -70,16 +55,13 @@
             aria-label="Close"
           ></button>
         </div>
-        <div class="offcanvas-body items">
-          <cart-item
-            v-for="cartElement in cart.itemsList"
-            :key="cartElement.goodsItem.id"
-            :good="cartElement.goodsItem"
-            :quantity="cartElement.quantity"
-          ></cart-item>
+        <div class="offcanvas-body">
+          <items :cart="cart"></items>
         </div>
         <div class="totalPrice p-2">Total price: {{ cart.getPrice()}}</div>
       </div>
+
+      <error-message :message="errorMessage"></error-message>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
