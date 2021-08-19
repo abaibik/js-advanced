@@ -172,22 +172,14 @@ const app = new Vue({
 
     makePOSTRequest(url, data) {
       const promise = new Promise((resolve, reject) => {
-        const xhr = new XMLHttpRequest();
-
-        xhr.onreadystatechange = function () {
-          if (xhr.readyState === 4) {
-            if (xhr.status !== 200) {
-              reject(`${xhr.status}`);
-            } else {
-              resolve(xhr.responseText);
-            }
-          }
-        };
-
-        xhr.open("POST", url, true);
-        xhr.setRequestHeader("Content-Type", "application/json; charset=UTF-8");
-
-        xhr.send(JSON.stringify(data));
+        const myRequest = new Request(url, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        });
+        fetch(myRequest);
       });
       return promise;
     },
