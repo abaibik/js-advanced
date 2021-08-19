@@ -13,12 +13,22 @@ app.get("/catalogData", (req, res) => {
 });
 
 app.post("/addToCart", (req, res) => {
-  const cart = req.body;
+  fs.readFile("cart.json", "utf8", (err, data) => {
+    const goodsId = req.body.id;
+    const cart = err ? [] : JSON.parse(data);
 
-  res.send("");
-  console.log("Add to cart");
-  fs.writeFile("cart.json", JSON.stringify(cart), (err) => {
-    console.log("done");
+    const foundElement = cart.find((cartElement) => {
+      return cartElement.id === goodsId;
+    });
+    if (foundElement === undefined) {
+      cart.push({ id: goodsId, quantity: 1 });
+    } else {
+      foundElement.quantity++;
+    }
+
+    res.send("");
+
+    fs.writeFile("cart.json", JSON.stringify(cart), (err) => {});
   });
 });
 

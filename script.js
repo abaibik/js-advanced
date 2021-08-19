@@ -192,7 +192,7 @@ const app = new Vue({
 
     addToCart(goodsItem) {
       this.cart.addToCart(goodsItem);
-      this.makePOSTRequest(`${API_URL}/addToCart`, this.cart.itemsList);
+      this.makePOSTRequest(`${API_URL}/addToCart`, { id: goodsItem.id });
     },
   },
 
