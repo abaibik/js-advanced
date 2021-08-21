@@ -38,6 +38,21 @@ app.post("/addToCart", (req, res) => {
   });
 });
 
+app.post("/removeFromCart", (req, res) => {
+  fs.readFile("cart.json", "utf8", (err, data) => {
+    const goodsId = req.body.id;
+    const cart = err ? [] : JSON.parse(data);
+
+    const idx = cart.findIndex((item) => item.id === goodsId);
+    if (idx === -1) {
+      res.status(400).send("No such item in cart!");
+    } else {
+      cart.splice(idx, 1);
+      fs.writeFile("cart.json", JSON.stringify(cart), (err) => {});
+    }
+  });
+});
+
 app.listen(3000, () => {
   console.log("server is running on port 3000!");
 });

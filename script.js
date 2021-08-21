@@ -102,19 +102,25 @@ Vue.component("items", {
   <cart-item
     v-for="cartElement in cart.itemsList"
     :key="cartElement.goodsItem.id"
-    :good="cartElement.goodsItem"
-    :quantity="cartElement.quantity"
+    :cart-element="cartElement"
   ></cart-item>
 </div>`,
 });
 
 Vue.component("cart-item", {
-  props: ["good", "quantity"],
+  props: ["cartElement"],
+  methods: {
+    removeFromCart: function (cartElement) {
+      this.$root.removeFromCart(cartElement);
+    },
+  },
   template: `<div class="cart-item row h-50 pb-2 align-items-stretch">
-  <div class="col h-100"><base-item-img :goodId="good.id" className="h-100"></base-item-img></div>
-  <span class="goods-heading align-self-center col">{{ good.title }}</span>
-  <span class="goods-price align-self-center col">{{ good.price }}</span>
-  <span class="quantity align-self-center col">{{ quantity }}</span>
+  <div class="col h-100"><base-item-img :goodId="cartElement.goodsItem.id" className="h-100"></base-item-img></div>
+  <span class="goods-heading align-self-center col">{{ cartElement.goodsItem.title }}</span>
+  <span class="goods-price align-self-center col">{{ cartElement.goodsItem.price }}</span>
+  <span class="quantity align-self-center col">{{ cartElement.quantity }}</span> 
+  <button v-on:click="removeFromCart(cartElement)"
+  class="align-self-center col px-1 border border-light rounded-pill" type="button">Delete item</button>
   </div>`,
 });
 
@@ -193,6 +199,13 @@ const app = new Vue({
     addToCart(goodsItem) {
       this.cart.addToCart(goodsItem);
       this.makePOSTRequest(`${API_URL}/addToCart`, { id: goodsItem.id });
+    },
+
+    removeFromCart(cartElement) {
+      this.cart.removeFromCart(cartElement);
+      this.makePOSTRequest(`${API_URL}/removeFromCart`, {
+        id: cartElement.goodsItem.id,
+      });
     },
   },
 
