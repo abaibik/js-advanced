@@ -1,6 +1,14 @@
 const express = require("express");
 const fs = require("fs");
 
+function logAction(action, goodId) {
+  const time = new Date();
+  fs.appendFileSync(
+    "stats.json",
+    `{"action": "${action}", "id": ${goodId}, "time": "${time.toUTCString()}"},\n`
+  );
+}
+
 const app = express();
 
 app.use(express.static("."));
@@ -35,6 +43,8 @@ app.post("/addToCart", (req, res) => {
     res.send("");
 
     fs.writeFile("cart.json", JSON.stringify(cart), (err) => {});
+
+    logAction("add", goodsId);
   });
 });
 
@@ -49,6 +59,7 @@ app.post("/removeFromCart", (req, res) => {
     } else {
       cart.splice(idx, 1);
       fs.writeFile("cart.json", JSON.stringify(cart), (err) => {});
+      logAction("remove", goodsId);
     }
   });
 });
