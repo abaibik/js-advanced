@@ -11,7 +11,7 @@ function logAction(action, goodId) {
 
 const app = express();
 
-app.use(express.static("."));
+app.use(express.static("./dist/public"));
 app.use(express.json());
 
 app.get("/catalogData", (req, res) => {
