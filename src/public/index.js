@@ -1,4 +1,8 @@
 import "./style.css";
+import search from "./components/search.js";
+import GoodsItemComponent from "./components/goods-item";
+import ErrorMessage from "./components/error-message";
+import CartItems from "./components/cart-items";
 
 const API_URL = ".";
 
@@ -49,107 +53,14 @@ class Cart {
   }
 }
 
-Vue.component("search", {
-  data: () => {
-    return {
-      searchLine: "",
-    };
-  },
-  props: ["search"],
-  template: `<form class="d-flex">
-  <input
-    class="formSearch form-control me-2"
-    type="search"
-    placeholder="Search"
-    aria-label="Search"
-    v-on:input="searchLine = $event.target.value"
-  />
-  <button
-    class="buttonSearch btn btn-outline-success"
-    type="submit"
-    v-on:click.stop.prevent="search(searchLine)"
-  >
-    Search
-  </button>
-</form>`,
-});
-
-Vue.component("base-item-img", {
-  props: ["goodId", "className"],
-  template: `<img :class="className"
-    :src="'https://picsum.photos/id/' + goodId + '/200/300'"
-    alt="item image"/>`,
-});
-
-Vue.component("goods-item", {
-  props: ["good", "add"],
-  template: `<div class="goods-item">
-  <base-item-img :goodId="good.id"></base-item-img>
-  <h3 class="goods-heading">{{ good.title }}</h3>
-  <p class="goods-price">{{ good.price }}</p>
-  <p class="pWithButton">
-    <a
-      class="goods-cartButton"
-      v-on:click="add(good)"
-      href="#"
-      >Add to cart</a
-    >
-  </p>
-  </div>`,
-});
-
-Vue.component("items", {
-  props: ["cart"],
-  template: `<div class="items h-100">
-  <cart-item
-    v-for="cartElement in cart.itemsList"
-    :key="cartElement.goodsItem.id"
-    :cart-element="cartElement"
-  ></cart-item>
-</div>`,
-});
-
-Vue.component("cart-item", {
-  props: ["cartElement"],
-  methods: {
-    removeFromCart: function (cartElement) {
-      this.$root.removeFromCart(cartElement);
-    },
-  },
-  template: `<div class="cart-item row h-50 pb-2 align-items-stretch">
-  <div class="col h-100"><base-item-img :goodId="cartElement.goodsItem.id" className="h-100"></base-item-img></div>
-  <span class="goods-heading align-self-center col">{{ cartElement.goodsItem.title }}</span>
-  <span class="goods-price align-self-center col">{{ cartElement.goodsItem.price }}</span>
-  <span class="quantity align-self-center col">{{ cartElement.quantity }}</span> 
-  <button v-on:click="removeFromCart(cartElement)"
-  class="align-self-center col px-1 border border-light rounded-pill" type="button">Delete item</button>
-  </div>`,
-});
-
-Vue.component("error-message", {
-  props: ["message"],
-  watch: {
-    message: (newMessage, oldMessage) => {
-      const toastLiveExample = document.getElementById("liveToast");
-      const toast = new bootstrap.Toast(toastLiveExample);
-      toast.show();
-    },
-  },
-  template: `<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
-  <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-    <div class="toast-header">
-      <strong class="me-auto">Error</strong>
-      <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-    </div>
-    <div class="toast-body">
-      Error: {{ message }}
-    </div>
-  </div>
-</div>`,
-});
-
 const app = new Vue({
   el: "#app",
+  components: {
+    search,
+    "goods-item": GoodsItemComponent,
+    "error-message": ErrorMessage,
+    "cart-items": CartItems,
+  },
 
   data: {
     goods: [],
