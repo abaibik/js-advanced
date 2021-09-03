@@ -3,7 +3,7 @@ function calc(a, b, op) {
     return NaN;
   }
 
-  if (b === "qwerty") {
+  if (isNaN(b) || b === "") {
     return NaN;
   }
 
