@@ -35,4 +35,8 @@ describe("calc(a,b,/)", () => {
   it("4/2=2", () => {
     expect(calc(4, 2, "/")).toBe(2);
   });
+
+  it("3/2=1.5", () => {
+    expect(calc(3, 2, "/")).toBe(1.5);
+  });
 });

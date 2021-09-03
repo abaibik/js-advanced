@@ -12,7 +12,7 @@ function calc(a, b, op) {
   }
 
   if (op === "/") {
-    return 2;
+    return a / b;
   }
 }
 
