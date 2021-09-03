@@ -1,5 +1,5 @@
 function calc(a, b, op) {
-  if (op !== "+" && op !== "-" && op !== "*" && op !== "/") {
+  if (!["+", "-", "*", "/"].includes(op)) {
     return NaN;
   }
 
