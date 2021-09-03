@@ -30,3 +30,9 @@ describe("calc(a,b,*)", () => {
     expect(calc(1, 0, "*")).toBe(0);
   });
 });
+
+describe("calc(a,b,/)", () => {
+  it("4/2=2", () => {
+    expect(calc(4, 2, "/")).toBe(2);
+  });
+});
