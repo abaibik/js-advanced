@@ -3,7 +3,11 @@ function calc(a, b, op) {
     return NaN;
   }
 
-  if (isNaN(b) || b === "") {
+  if (isNaN(b)) {
+    return NaN;
+  }
+
+  if (["", null].includes(b)) {
     return NaN;
   }
 
