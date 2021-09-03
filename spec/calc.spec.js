@@ -39,4 +39,8 @@ describe("calc(a,b,/)", () => {
   it("3/2=1.5", () => {
     expect(calc(3, 2, "/")).toBe(1.5);
   });
+
+  it("3/0=Infinity", () => {
+    expect(calc(3, 0, "/")).toBe(Infinity);
+  });
 });
