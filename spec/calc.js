@@ -3,7 +3,7 @@ function calc(a, b, op) {
     return a + b;
   }
   if (op === "-") {
-    return 0;
+    return a - b;
   }
 }
 
