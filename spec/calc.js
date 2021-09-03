@@ -1,5 +1,10 @@
 function calc(a, b, op) {
-  return a + b;
+  if (op === "+") {
+    return a + b;
+  }
+  if (op === "-") {
+    return 0;
+  }
 }
 
 module.exports = {

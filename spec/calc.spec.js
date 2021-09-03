@@ -10,3 +10,9 @@ describe("calc(a, b, +)", () => {
     expect(calc(1, 2, "+")).toBe(3);
   });
 });
+
+describe("calc(a,b,-)", () => {
+  it("1-1=0", () => {
+    expect(calc(1, 1, "-")).toBe(0);
+  });
+});
