@@ -22,7 +22,10 @@ describe("calc", () => {
 });
 
 describe("calc invalid argument", () => {
-  const testData = [[1, 1, "qwerty"]];
+  const testData = [
+    [1, 1, "qwerty"],
+    [1, 1, ""],
+  ];
 
   for (const [a, b, op] of testData) {
     it(`calc(${a}, ${b}, ${op}) = NaN`, () => {

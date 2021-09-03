@@ -1,5 +1,5 @@
 function calc(a, b, op) {
-  if (op === "qwerty") {
+  if (op !== "+" && op !== "-" && op !== "*" && op !== "/") {
     return NaN;
   }
 
