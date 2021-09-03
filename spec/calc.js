@@ -3,11 +3,12 @@ function calc(a, b, op) {
     return NaN;
   }
 
-  if (isNaN(b)) {
+  if (isNaN(b) || isNaN(a)) {
     return NaN;
   }
 
-  if (["", null].includes(b)) {
+  const invalidValues = ["", null];
+  if (invalidValues.includes(b) || invalidValues.includes(a)) {
     return NaN;
   }
 
