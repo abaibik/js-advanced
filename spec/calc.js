@@ -6,7 +6,7 @@ function calc(a, b, op) {
     return a - b;
   }
   if (op === "*") {
-    return 1;
+    return a * b;
   }
 }
 

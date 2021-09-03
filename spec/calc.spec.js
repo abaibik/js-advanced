@@ -25,4 +25,8 @@ describe("calc(a,b,*)", () => {
   it("1*1=1", () => {
     expect(calc(1, 1, "*")).toBe(1);
   });
+
+  it("1*0=0", () => {
+    expect(calc(1, 0, "*")).toBe(0);
+  });
 });
