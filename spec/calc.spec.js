@@ -25,6 +25,7 @@ describe("calc invalid argument", () => {
   const testData = [
     [1, 1, "qwerty"],
     [1, 1, ""],
+    [1, "qwerty", "+"],
   ];
 
   for (const [a, b, op] of testData) {

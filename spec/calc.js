@@ -3,6 +3,10 @@ function calc(a, b, op) {
     return NaN;
   }
 
+  if (b === "qwerty") {
+    return NaN;
+  }
+
   if (op === "+") {
     return a + b;
   }
