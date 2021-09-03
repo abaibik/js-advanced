@@ -1,14 +1,22 @@
+function checkOperand(x) {
+  if (isNaN(x)) {
+    return false;
+  }
+
+  const invalidValues = ["", null];
+  if (invalidValues.includes(x)) {
+    return false;
+  }
+
+  return true;
+}
+
 function calc(a, b, op) {
   if (!["+", "-", "*", "/"].includes(op)) {
     return NaN;
   }
 
-  if (isNaN(b) || isNaN(a)) {
-    return NaN;
-  }
-
-  const invalidValues = ["", null];
-  if (invalidValues.includes(b) || invalidValues.includes(a)) {
+  if (!checkOperand(a) || !checkOperand(b)) {
     return NaN;
   }
 
