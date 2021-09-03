@@ -20,3 +20,13 @@ describe("calc", () => {
     });
   }
 });
+
+describe("calc invalid argument", () => {
+  const testData = [[1, 1, "qwerty"]];
+
+  for (const [a, b, op] of testData) {
+    it(`calc(${a}, ${b}, ${op}) = NaN`, () => {
+      expect(calc(a, b, op)).toBeNaN();
+    });
+  }
+});
